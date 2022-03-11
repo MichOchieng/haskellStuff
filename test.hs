@@ -1,3 +1,4 @@
+import Prelude hiding (Applicative)
 
 {-
     rev :: [a] -> [a]
@@ -42,11 +43,11 @@
 -- mirror should be a Tree a -> Tree a function
 
 -- here's a continuation representing data type
-data Tree a     = EmptyTree | Node a (Tree a) (Tree a) deriving (Show)
-data Side = LeftSide | RightSide
-data TreeCont a
-   = IdCont
-   | Cont Side a (Tree a) (TreeCont a)
+-- data Tree a     = EmptyTree | Node a (Tree a) (Tree a) deriving (Show)
+-- data Side = LeftSide | RightSide
+-- data TreeCont a
+--    = IdCont
+--    | Cont Side a (Tree a) (TreeCont a)
 
 
 -- mirror :: Tree a -> Tree a
@@ -70,30 +71,4 @@ data TreeCont a
 -- interpret IdCont t = t
 -- interpret (Cont LeftSide a arr) t = mirrorX (Cont RightSide a t) ell
 -- interpret (Cont RightSide a mL) t = interpret k (Node a t mL)
-
-{-
-Functors
-    Can be mapped over lists
-    Uses fmap or <*>
-        fmap :: (a->b) -> f a -> f b
-        Takes a function and a functor then maps that function over the functor
-            box = computational context (ex. Maybe or Either)
-            ex. Just a such that Just is the box and a is the value in the box
--}
-
--- Regular
--- main = do 
---     line <- getLine
---     let line2 = reverse line
---     putStrLn line2
-
--- fmap version
-main = do
-    line <- fmap reverse getLine
-    putStrLn line
-
--- Applicatives
-
-
--- Monads
 
