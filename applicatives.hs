@@ -1,3 +1,4 @@
+import Prelude hiding (Applicative)
 {-
 Applicatives
     Allows us to map functions inside of functors over other functors
@@ -15,8 +16,6 @@ instance Applicative Maybe where
     Nothing <*> _ = Nothing    
     (Just f ) <*> something = fmap f something
 
-test ::(Show a) => a -> Maybe a
-test a = Prelude.pure (*a) Prelude.<*> Just a 
-
+-- Test1
 main = do
-    print $ test 3
+    print $ (++) <$> Just "Happy " Prelude.<*> Just "Birthday"
