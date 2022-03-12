@@ -20,6 +20,6 @@ Functors
 --     putStrLn line2
 
 -- fmap version
--- main = do
---     line <- fmap reverse getLine
---     putStrLn line
+main = do
+    line <- fmap reverse getLine
+    putStrLn line
