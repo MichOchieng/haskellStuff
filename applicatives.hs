@@ -1,5 +1,6 @@
 import Prelude hiding (Applicative)
 import Control.Applicative (ZipList (ZipList))
+
 {-
 Applicatives
     Allows us to map functions inside of functors over other functors
@@ -37,6 +38,14 @@ con = (++) <$> getLine Prelude.<*> getLine
     (1) partially applies ++ to the first getLine
     (2) map the partial function application to the second getLine
     (3) return the concat' of the two getLines
+-}
+
+sequence' :: (Applicative f) => [f a] -> f [a]
+sequence' [] = pure []
+sequence' (x:xs) = (:) <$> x Prelude.<*> sequence' xs
+{-
+sequence' xs
+  = foldr (\ x -> (Prelude.<*>) ((:) <$> x)) (Prelude.pure []) xs
 -}
 
 main = do
