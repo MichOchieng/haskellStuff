@@ -29,6 +29,12 @@ instance Semigroup (First a) => Prelude.Monoid (First a) where
     First (Just x) `mappend` _ = First (Just x)
     First Nothing `mappend` x  = x
 
+instance Foldable Tree where
+    foldMap f EmptyTree = Prelude.mempty 
+    foldMap f (Node a left right) = foldMap f left `Prelude.mappend` 
+                                    f a            `Prelude.mappend` 
+                                    foldMap f right
+
 -- instance Monoid a => Monoid (Maybe a) where
 --     mempty = Nothing 
 --     Nothing `mappend` m = m
@@ -37,6 +43,18 @@ instance Semigroup (First a) => Prelude.Monoid (First a) where
 
 test :: (First a -> Maybe a) -> First a -> Maybe a
 test f (First a) = f $ First a
+
+myTree :: Tree Char
+myTree =
+    Node 'A' 
+        (Node 'B' 
+            (Node 'D' EmptyTree EmptyTree) 
+            (Node 'E' EmptyTree EmptyTree)   
+        ) 
+        (Node 'C' 
+            (Node 'F' EmptyTree EmptyTree) 
+            (Node 'G' EmptyTree EmptyTree)
+        )
 
 main = do
     print $ getFirst $ First (Just 13)
