@@ -1,6 +1,7 @@
 newtype Pair b a = Pair { getPair :: (a,b)} deriving Show
 
 newtype Handle =  Handle { getHandle :: Handle} deriving Show -- Allows for undefined vals to be passed
+-- Undefined wont be evaluated because ghc knows its some Handle type
 
 instance Functor (Pair c) where
     fmap f (Pair (a,b)) = Pair (f a, b)
