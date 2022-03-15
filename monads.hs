@@ -1,3 +1,4 @@
+import Distribution.Compat.Lens (_1)
 {-
 Monads
 
@@ -41,12 +42,32 @@ instance Main.Monad Maybe' where
     Just' x  >>= f = f x
     fail _         = Nothing'
 
+-- Rope Ex
+type Birb = Int 
+type Pole = (Birb,Birb)
+
+landRight :: Birb -> Pole -> Maybe' Pole
+landRight n (left,right)
+            | abs (left - (right + n)) < 4 = Just' (left,right + n)
+            | otherwise                    = Nothing'
+
+landLeft  :: Birb -> Pole -> Maybe' Pole
+landLeft  n (left,right)
+            | abs ((left + n) - right) < 4 = Just' (left + n, right)
+            | otherwise                    = Nothing'
+
+slipped :: Maybe' a -> String 
+slipped Nothing' = "Slipped!"
+slipped _        = "Still alright!"
+
+
 functorTest :: Maybe' [Char] -> Maybe' [Char]
 functorTest = fmap (++" ochieng")
 
 main = do
-    let val = Just' "Mich"
-    print $ functorTest val
-    print $ (\x y -> (x+1) * y) <$> Just 3 Prelude.<*> Just pi 
+    -- let val = Just' "Mich"
+    -- print $ functorTest val
+    -- print $ (\x y -> (x+1) * y) <$> Just pi Prelude.<*> Just pi 
     print $ Just' "Mich" Main.>>= (\x -> Main.return $ x ++ " Ochieng Monad")
+    print $ slipped $ Just' (0,0) Main.>>= landRight 2 Main.>>= landLeft 2 Main.>>= landRight 1
     
