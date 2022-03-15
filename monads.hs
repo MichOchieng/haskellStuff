@@ -6,6 +6,12 @@ Monads
     Allows you to take a value with the context (m a) and apply it to a function that takes a normal unwrapped value
 
     (>>=) :: (Monad m) => m a -> (a -> m b) -> m b
+
+    Laws
+        (1) Left  identity: return x >>= f is equivalent to f x
+        (2) Right identity: m >>= return is equivalent to m
+        (3) Associativity
+            (m >>= f) >>= g is equivalent to m >>= (\x -> f x >>= g)
 -}
 data Maybe' a = Just' a
             | Nothing'
@@ -58,7 +64,7 @@ landLeft  n (left,right)
             | otherwise                    = Nothing
 
 slipped :: Maybe a -> String
-slipped Nothing = "Slipped!"
+slipped Nothing  = "Slipped!"
 slipped _        = "Still alright!"
 
 tightRope :: Maybe Pole
@@ -91,7 +97,6 @@ threeMoves start = do
 withinReach :: KnightPos -> KnightPos -> Bool 
 -- Will see if the given position pos1 is in the set of all posisition that pos0 can reach in 3 moves
 withinReach pos0 pos1 = pos1 `elem` threeMoves pos0
-
 
 main = do
     -- print $ (\x y -> (x+1) * y) <$> Just pi Prelude.<*> Just pi 
