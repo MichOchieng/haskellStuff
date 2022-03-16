@@ -40,9 +40,9 @@ con = (++) <$> getLine Prelude.<*> getLine
     (3) return the concat' of the two getLines
 -}
 
-sequence' :: (Applicative f) => [f a] -> f [a]
-sequence' [] = pure []
-sequence' (x:xs) = (:) <$> x Prelude.<*> sequence' xs
+-- sequence' :: (Applicative f) => [f a] -> f [a]
+-- sequence' [] = pure []
+-- sequence' (x:xs) = (:) <$> x Prelude.<*> sequence' xs
 {-
 sequence' xs
   = foldr (\ x -> (Prelude.<*>) ((:) <$> x)) (Prelude.pure []) xs
