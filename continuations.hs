@@ -29,3 +29,7 @@ cpsInsert (x:xs) y k =
 
 lstLength :: [a] -> Int 
 lstLength = foldr (\x acc -> acc + 1) 0 
+
+cpsLength :: [a] -> Int -> Int
+cpsLength [] acc      = acc 
+cpsLength (x:xs) acc  = cpsLength xs (acc + 1)
