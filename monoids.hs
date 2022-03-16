@@ -1,6 +1,7 @@
 {-
 Monoids
     Associative binary function and a value which acts as an identity with respect to that function
+    In other words a semi group with an identity argument
 
     (1) Function takes two params
     (2) Params and the returned val have the same type
@@ -9,6 +10,7 @@ Monoids
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE UndecidableInstances #-}
 
+import qualified Data.Foldable as F
 class Monoid m where
     mempty  :: m
     mappend :: m -> m -> m
@@ -28,8 +30,9 @@ instance Semigroup (First a) => Prelude.Monoid (First a) where
     mempty = First Nothing
     First (Just x) `mappend` _ = First (Just x)
     First Nothing `mappend` x  = x
+    
 
-instance Foldable Tree where
+instance F.Foldable Tree where
     foldMap f EmptyTree = Prelude.mempty 
     foldMap f (Node a left right) = foldMap f left `Prelude.mappend` 
                                     f a            `Prelude.mappend` 
@@ -41,23 +44,19 @@ instance Foldable Tree where
 --     m `mappend` Nothing = m
 --     Just m1 `mappend` Just m2 = Just (m1 `mappend` m2)
 
-test :: (First a -> Maybe a) -> First a -> Maybe a
-test f (First a) = f $ First a
-
-myTree :: Tree Char
+myTree :: Tree Int
 myTree =
-    Node 'A' 
-        (Node 'B' 
-            (Node 'D' EmptyTree EmptyTree) 
-            (Node 'E' EmptyTree EmptyTree)   
+    Node 1 
+        (Node 2 
+            (Node 4 EmptyTree EmptyTree) 
+            (Node 5 EmptyTree EmptyTree)   
         ) 
-        (Node 'C' 
-            (Node 'F' EmptyTree EmptyTree) 
-            (Node 'G' EmptyTree EmptyTree)
+        (Node 3 
+            (Node 6 EmptyTree EmptyTree) 
+            (Node 7 EmptyTree EmptyTree)
         )
 
 main = do
-    print $ getFirst $ First (Just 13)
-    print $ "im a " `Prelude.mappend` "monoid"
+    print $ foldl (+) 0 myTree
 
 
