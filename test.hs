@@ -43,20 +43,20 @@ import Prelude hiding (Applicative)
 -- mirror should be a Tree a -> Tree a function
 
 -- here's a continuation representing data type
--- data Tree a     = EmptyTree | Node a (Tree a) (Tree a) deriving (Show)
--- data Side = LeftSide | RightSide
--- data TreeCont a
---    = IdCont
---    | Cont Side a (Tree a) (TreeCont a)
+data Tree a     = EmptyTree | Node a (Tree a) (Tree a) deriving (Show)
+data Side = LeftSide | RightSide
+data TreeCont a
+   = IdCont
+   | Cont Side a (Tree a) (TreeCont a)
 
 
--- mirror :: Tree a -> Tree a
--- mirror = mirrorX IdCont -- This will just give back EmptyTree?
+mirror :: Tree a -> Tree a
+mirror = mirrorX IdCont -- This will just give back EmptyTree?
 -- mirrorX will return a function that gives a Tree a
 -- Then mirror will give us whatever Tree a we got from mirrorX
 
--- mirrorX :: TreeCont a -> (Tree a -> Tree a)
--- mirrorX k EmptyTree = interpret k EmptyTree
+mirrorX :: TreeCont a -> (Tree a -> Tree a)
+mirrorX k EmptyTree = interpret k EmptyTree
 {-
     k: IdCont
     gives result of interpret(IdCont,EmptyTree) back to mirror
@@ -67,8 +67,8 @@ import Prelude hiding (Applicative)
     k is still some TreeCont
 -}
 
--- interpret :: TreeCont a -> Tree a -> Tree a
--- interpret IdCont t = t
--- interpret (Cont LeftSide a arr) t = mirrorX (Cont RightSide a t) ell
--- interpret (Cont RightSide a mL) t = interpret k (Node a t mL)
+interpret :: TreeCont a -> Tree a -> Tree a
+interpret IdCont t = t
+interpret (Cont LeftSide a arr) t = mirrorX (Cont RightSide a t) ell
+interpret (Cont RightSide a mL) t = interpret k (Node a t mL)
 
