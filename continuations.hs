@@ -45,6 +45,11 @@ myTake 0 _  = []
 myTake _ [] = []
 myTake i (x:xs) = x : myTake (i-1) xs
 
+takeK :: ([a] -> p) -> Int -> [a] -> p
+takeK k 0 _  = k[]
+takeK k _ [] = k []
+takeK k n (x:xs) = k (x : take (n-1) xs)
+
 
 main = do
     let test = myTake 3 [1..13]
