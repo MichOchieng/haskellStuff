@@ -33,3 +33,13 @@ lstLength = foldr (\x acc -> acc + 1) 0
 cpsLength :: [a] -> Int -> Int
 cpsLength [] acc      = acc 
 cpsLength (x:xs) acc  = cpsLength xs (acc + 1)
+
+myTake :: Int -> [a] -> [a]
+myTake 0 _  = []
+myTake _ [] = []
+myTake i (x:xs) = x : myTake (i-1) xs
+
+
+main = do 
+    let test = myTake 3 [1..13]
+    print test
