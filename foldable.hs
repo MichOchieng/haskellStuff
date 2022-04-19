@@ -41,15 +41,18 @@ q p x = if p x
     then Sum 1
     else Sum 0
 
+isEven :: (Integral a) => a -> Bool
+isEven = even
+
 countIf :: (a -> Bool) -> Int -> ([a] -> Int)
 countIf f acc []     = acc
 countIf f acc (x:xs) = if f x
-                then countIf f (acc + 1) xs 
+                then countIf f (acc + 1) xs
                 else countIf f acc xs
-                
+
 countIf' :: (a -> Bool) -> [Sum Int] -> [a] -> Sum Int
-countIf' f lst []     = mconcat lst 
-countIf' f lst (x:xs) = if f x 
+countIf' f lst []     = mconcat lst
+countIf' f lst (x:xs) = if f x
                 then countIf' f (mappend lst [Sum 1]) xs
                 else countIf' f (mappend lst [Sum 0]) xs
 
