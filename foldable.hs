@@ -60,8 +60,17 @@ toList :: (Foldable t) => (t a) -> [a]
 toList = foldMap (\x -> [x])
 -- toList = foldMap (:[])
 
+f :: [Int]
+f = do 
+        x <- [5,6,7]
+        y <- [3]
+        return (x - y)
+
+m :: Maybe [Int]
+m = Just [5,6,7] 
+
+g :: [Int] -> Maybe [Int]
+g x = Just (map (subtract 3) x)
 
 main = do
-    print $ foldr (\x y -> (x * y) + x) 1 [1,2,3,4]
-    let lst = [1,2,3]
-    print $ myMap (+1) lst
+    print $ m >>= g
