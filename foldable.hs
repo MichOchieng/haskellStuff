@@ -56,6 +56,11 @@ countIf' f lst (x:xs) = if f x
                 then countIf' f (mappend lst [Sum 1]) xs
                 else countIf' f (mappend lst [Sum 0]) xs
 
+toList :: (Foldable t) => (t a) -> [a]
+toList = foldMap (\x -> [x])
+-- toList = foldMap (:[])
+
+
 main = do
     print $ foldr (\x y -> (x * y) + x) 1 [1,2,3,4]
     let lst = [1,2,3]
