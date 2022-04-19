@@ -94,14 +94,38 @@ threeMoves start = do
     move2 <- knightMovement move1
     knightMovement move2
 
-withinReach :: KnightPos -> KnightPos -> Bool 
+withinReach :: KnightPos -> KnightPos -> Bool
 -- Will see if the given position pos1 is in the set of all posisition that pos0 can reach in 3 moves
 withinReach pos0 pos1 = pos1 `elem` threeMoves pos0
 
+-- FINAL REVIEW 
+
+-- star :: (Monad m) => (a -> m b) -> m a -> (m a -> (a -> m b) -> m b)
+star :: Prelude.Monad m => (a -> m b) -> m a -> m b
+star f m = m Prelude.>>= f
+
+data Boxed x = Box x deriving Show
+
+instance Functor Boxed where
+    fmap f (Box x) = Box (f x)
+
+instance Prelude.Applicative Boxed where
+    pure                  = Box
+    (Box f) <*> something = fmap f something
+
+instance Prelude.Monad Boxed where
+    return x     = Box x
+    Box x >>= f  = f x
+
+instance Foldable Boxed where
+    foldMap f (Box x) = f x
+
+instance Traversable Boxed where
+    traverse f (Box x) = Box <$> f x
+
+myBox :: Boxed Int 
+myBox = Box 13
+
 main = do
-    -- print $ (\x y -> (x+1) * y) <$> Just pi Prelude.<*> Just pi 
-    print $ Just' "Mich" Main.>>= (\x -> Main.return $ x ++ " Ochieng Monad")
-    print $ slipped $ Just (0,0) Prelude.>>= landRight 2 Prelude.>>= landLeft 2 Prelude.>>= landRight 1
-    print tightRope
-    print $ slipped tightRope
+    print myBox
     
