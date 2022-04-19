@@ -50,6 +50,12 @@ takeK k 0 _  = k[]
 takeK k _ [] = k []
 takeK k n (x:xs) = k (x : take (n-1) xs)
 
+func :: [Int] -> Maybe Int 
+func = go id where
+    go k [] = k Nothing 
+    go k (x:xs) 
+        | x > 0     = go (const (Just x)) xs
+        | otherwise = go k xs
 
 main = do
     let test = myTake 3 [1..13]
