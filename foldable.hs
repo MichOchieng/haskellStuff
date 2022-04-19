@@ -1,3 +1,4 @@
+import Data.Monoid
 {-
 Foldables
 
@@ -34,6 +35,23 @@ prefixes = foldr (\x acc -> [x] : (map ((:) x) acc)) []
 -- prefixHelper :: [a] -> [a]
 -- prefixHelper []     = []
 -- prefixHelper (x:xs) = prefixHelper $ init (x:xs)
+
+q :: (a -> Bool) -> (a -> Sum Int)
+q p x = if p x
+    then Sum 1
+    else Sum 0
+
+countIf :: (a -> Bool) -> Int -> ([a] -> Int)
+countIf f acc []     = acc
+countIf f acc (x:xs) = if f x
+                then countIf f (acc + 1) xs 
+                else countIf f acc xs
+                
+countIf' :: (a -> Bool) -> [Sum Int] -> [a] -> Sum Int
+countIf' f lst []     = mconcat lst 
+countIf' f lst (x:xs) = if f x 
+                then countIf' f (mappend lst [Sum 1]) xs
+                else countIf' f (mappend lst [Sum 0]) xs
 
 main = do
     print $ foldr (\x y -> (x * y) + x) 1 [1,2,3,4]
