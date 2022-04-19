@@ -126,6 +126,17 @@ instance Traversable Boxed where
 myBox :: Boxed Int 
 myBox = Box 13
 
+myBox2 :: Boxed Int 
+myBox2 = Box 3
+
+myBox3 :: Boxed [Int]
+myBox3 = Box [13]
+
+
 main = do
     print myBox
+    print $ (+) <$> myBox Prelude.<*> myBox2
+    print $ myBox Prelude.>>= (\x -> Box(x * x))
+    -- print $ foldMap (+1) myBox3
+    traverse print myBox
     
